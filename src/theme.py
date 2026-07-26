@@ -32,6 +32,7 @@ THEME_CSS = """
     --color-bg-info: #eff6ff;
     --color-bg-danger: #fee2e2;
     --color-bg-warning: #fef3c7;
+    --color-bg-success: #f0fdf4;
     
     --border-radius-md: 8px;
     --border-radius-lg: 12px;
@@ -181,6 +182,87 @@ code, .stCaption, [data-testid="stCaptionContainer"] {
     color: var(--color-text-secondary) !important;
     font-weight: 600 !important;
 }
+
+/* ============================================================ */
+/* NEW: Sidebar Nav (st.radio) styled as a real nav list         */
+/* ============================================================ */
+section[data-testid="stSidebar"] div[role="radiogroup"] {
+    gap: 2px !important;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label {
+    padding: 8px 12px !important;
+    border-radius: var(--border-radius-md) !important;
+    margin-bottom: 2px !important;
+    width: 100%;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--color-text-secondary) !important;
+    transition: background 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+}
+
+/* hide the native radio circle, keep only the label as a nav row */
+section[data-testid="stSidebar"] div[role="radiogroup"] label > div:first-child {
+    display: none !important;
+}
+
+/* highlight the active/selected nav item */
+section[data-testid="stSidebar"] div[role="radiogroup"] label[data-checked="true"],
+section[data-testid="stSidebar"] div[role="radiogroup"] label:has(input:checked) {
+    background-color: var(--color-bg-info) !important;
+    color: var(--color-text-info) !important;
+    font-weight: 700 !important;
+}
+
+/* ============================================================ */
+/* NEW: st.success / st.info / st.warning / st.error text color  */
+/* ============================================================ */
+div[data-testid="stAlert"] p {
+    color: var(--color-text-primary) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+div[data-testid="stAlertContentSuccess"] {
+    background-color: var(--color-bg-success) !important;
+}
+
+div[data-testid="stAlertContentInfo"] {
+    background-color: var(--color-bg-info) !important;
+}
+
+div[data-testid="stAlertContentWarning"] {
+    background-color: var(--color-bg-warning) !important;
+}
+
+div[data-testid="stAlertContentError"] {
+    background-color: var(--color-bg-danger) !important;
+}
+
+/* ============================================================ */
+/* NEW: File uploader dropzone                                   */
+/* ============================================================ */
+div[data-testid="stFileUploaderDropzone"] {
+    background-color: var(--color-bg-secondary) !important;
+    border: 1.5px dashed var(--color-border-tertiary) !important;
+    border-radius: var(--border-radius-lg) !important;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+div[data-testid="stFileUploaderDropzone"]:hover {
+    border-color: var(--color-text-info) !important;
+    background-color: var(--color-bg-info) !important;
+}
+
+div[data-testid="stFileUploaderDropzone"] button {
+    border-radius: var(--border-radius-md) !important;
+}
 </style>
 """
 
@@ -201,6 +283,26 @@ def module_header(mod_number: str, title: str, subtitle: str = "Select an action
             <span class="{tag_class}">{mod_number} OPERATIONAL</span>
             <h1 style="margin-top:2px; margin-bottom:4px;">{title}</h1>
             <p class="mod-subtitle">{subtitle}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def card(content_html: str, title: str = None):
+    """
+    Generic content card wrapper for use inside any page
+    (profiling.py, hypothesis_page.py, report.py, etc).
+
+    Usage:
+        card("<p>Chi-square p-value: 0.032</p>", title="Test Result")
+    """
+    title_html = f"<h4 style='margin-top:0; margin-bottom:8px;'>{title}</h4>" if title else ""
+    st.markdown(
+        f"""
+        <div style="background:var(--color-bg-card); border-radius:var(--border-radius-xl);
+        box-shadow:var(--shadow-card); padding:16px; margin-bottom:12px;">
+        {title_html}{content_html}
         </div>
         """,
         unsafe_allow_html=True,
