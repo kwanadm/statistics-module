@@ -1,50 +1,61 @@
 """
 theme.py
-Injects CSS so the Streamlit app matches the AirAsia Operations Suite design system
-(Modern Slate/Navy background, Blue/Red operational accents, Inter + Tabler Icons style).
+Injects CSS so the Streamlit app matches the "Analytics System Workspace"
+design system (dark navy/slate background, cyan/blue gradient accents,
+Inter + Fira Code, grid-paper background).
 """
 
 import streamlit as st
 
 THEME_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, monospace;
-    
-    --color-text-primary: #1e293b;
-    --color-text-secondary: #475569;
-    --color-text-tertiary: #94a3b8;
-    
-    --color-text-success: #16a34a;
-    --color-text-danger: #dc2626;
-    --color-text-warning: #d97706;
-    --color-text-info: #2563eb;
-    
-    --color-border-secondary: #e2e8f0;
-    --color-border-tertiary: #cbd5e1;
-    
-    --color-bg-app: #eef4fb;
-    --color-bg-card: #ffffff;
-    --color-bg-secondary: #f8fafc;
-    --color-bg-info: #eff6ff;
-    --color-bg-danger: #fee2e2;
-    --color-bg-warning: #fef3c7;
-    --color-bg-success: #f0fdf4;
-    
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'Fira Code', SFMono-Regular, Consolas, monospace;
+
+    --color-bg-main: #0b0f19;
+    --color-bg-card: #151b2b;
+    --color-bg-card-hover: #1a2235;
+    --color-bg-secondary: #10152280;
+
+    --color-text-primary: #e2e8f0;
+    --color-text-secondary: #8b9bb4;
+    --color-text-tertiary: #64748b;
+
+    --color-accent-cyan: #06b6d4;
+    --color-accent-blue: #3b82f6;
+    --color-glow: rgba(6, 182, 212, 0.3);
+
+    --color-text-success: #22c55e;
+    --color-text-danger: #f87171;
+    --color-text-warning: #fbbf24;
+    --color-text-info: var(--color-accent-cyan);
+
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-hover: var(--color-accent-cyan);
+
+    --color-bg-info: rgba(6, 182, 212, 0.12);
+    --color-bg-danger: rgba(248, 113, 113, 0.12);
+    --color-bg-warning: rgba(251, 191, 36, 0.12);
+    --color-bg-success: rgba(34, 197, 94, 0.12);
+
     --border-radius-md: 8px;
-    --border-radius-lg: 12px;
-    --border-radius-xl: 16px;
-    
-    --shadow-card: 0 4px 18px rgba(0,0,0,0.06);
-    --shadow-hover: 0 10px 30px rgba(0,0,0,0.08);
+    --border-radius-lg: 10px;
+    --border-radius-xl: 12px;
+
+    --shadow-card: 0 4px 18px rgba(0,0,0,0.35);
+    --shadow-hover: 0 5px 15px var(--color-glow);
 }
 
-/* Base App Styling */
+/* Base App Styling - dark grid-paper background */
 .stApp {
-    background-color: var(--color-bg-app) !important;
+    background-color: var(--color-bg-main) !important;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important;
+    background-size: 40px 40px !important;
     font-family: var(--font-sans) !important;
     color: var(--color-text-primary) !important;
 }
@@ -52,15 +63,22 @@ THEME_CSS = """
 /* Sidebar Styling */
 section[data-testid="stSidebar"] {
     background-color: var(--color-bg-card) !important;
-    border-right: 1px solid var(--color-border-secondary) !important;
+    border-right: 1px solid var(--color-border) !important;
 }
 
-/* Headings */
+section[data-testid="stSidebar"] * {
+    color: var(--color-text-primary);
+}
+
+/* Headings - gradient text like landing page h1 */
 h1 {
     font-size: 24px !important;
     font-weight: 800 !important;
-    color: var(--color-text-primary) !important;
     letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--color-accent-cyan), var(--color-accent-blue));
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 h2 {
@@ -74,17 +92,24 @@ h3, h4 {
     font-weight: 600 !important;
 }
 
-/* Module Header Subtitle */
+/* Module Header Subtitle - terminal style ">" prompt */
 .mod-subtitle {
     color: var(--color-text-secondary);
+    font-family: var(--font-mono);
     font-size: 0.85rem;
     margin-bottom: 1rem;
 }
 
+.mod-subtitle::before {
+    content: "> ";
+    color: var(--color-accent-cyan);
+}
+
 /* Module Badge Tag */
 .mod-tag {
+    font-family: var(--font-mono);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     padding: 3px 10px;
     border-radius: 99px;
     display: inline-block;
@@ -92,34 +117,42 @@ h3, h4 {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     background: var(--color-bg-info);
-    color: var(--color-text-info);
+    color: var(--color-accent-cyan);
+    border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
 .mod-tag.onloan {
     background: var(--color-bg-danger);
     color: var(--color-text-danger);
+    border: 1px solid rgba(248, 113, 113, 0.3);
 }
 
 /* Card Wrappers & Containers (Metrics, Expanders, DataFrames) */
-div[data-testid="stMetric"], 
-div[data-testid="stExpander"], 
-.stDataFrame, 
+div[data-testid="stMetric"],
+div[data-testid="stExpander"],
+.stDataFrame,
 .stAlert,
 div[data-testid="stForm"] {
     background-color: var(--color-bg-card) !important;
-    border: none !important;
+    border: 1px solid var(--color-border) !important;
     border-radius: var(--border-radius-xl) !important;
     box-shadow: var(--shadow-card) !important;
     padding: 16px !important;
 }
 
+div[data-testid="stExpander"]:hover,
+div[data-testid="stForm"]:hover {
+    border-color: var(--color-border-hover) !important;
+}
+
 /* Metric Label & Value Customization */
 div[data-testid="stMetric"] label {
+    font-family: var(--font-mono) !important;
     font-size: 11px !important;
-    color: var(--color-text-tertiary) !important;
+    color: var(--color-text-secondary) !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
@@ -132,38 +165,47 @@ div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
 .stButton > button {
     background-color: var(--color-bg-card);
     color: var(--color-text-primary);
-    border: 1px solid var(--color-border-tertiary);
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius-md);
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 13px;
     padding: 8px 16px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    background-color: var(--color-bg-secondary);
-    border-color: var(--color-border-secondary);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background-color: var(--color-bg-card-hover);
+    border-color: var(--color-accent-cyan);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Primary Accent Button Style Override */
+/* Primary Accent Button Style Override - gradient like landing page */
 .stButton > button[kind="primary"] {
-    background-color: var(--color-text-info) !important;
-    color: #ffffff !important;
+    background: linear-gradient(90deg, var(--color-accent-cyan), var(--color-accent-blue)) !important;
+    color: #0b0f19 !important;
     border: none !important;
+    font-weight: 700 !important;
 }
 
 .stButton > button[kind="primary"]:hover {
-    background-color: #1d4ed8 !important;
-    color: #ffffff !important;
+    filter: brightness(1.1);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover) !important;
 }
 
 /* Inputs & Selectboxes */
 input, select, textarea, div[data-baseweb="select"] {
     border-radius: var(--border-radius-md) !important;
     font-family: var(--font-sans) !important;
+    background-color: var(--color-bg-card) !important;
+    color: var(--color-text-primary) !important;
+}
+
+div[data-baseweb="select"] > div {
+    background-color: var(--color-bg-card) !important;
+    border-color: var(--color-border) !important;
 }
 
 /* Code & Monospace Formatting */
@@ -175,16 +217,18 @@ code, .stCaption, [data-testid="stCaptionContainer"] {
 /* Dataframe Headers & Cells */
 .stDataFrame table {
     font-size: 12px !important;
+    color: var(--color-text-primary) !important;
 }
 
 .stDataFrame th {
-    background-color: var(--color-bg-secondary) !important;
+    background-color: var(--color-bg-card-hover) !important;
     color: var(--color-text-secondary) !important;
     font-weight: 600 !important;
+    font-family: var(--font-mono) !important;
 }
 
 /* ============================================================ */
-/* NEW: Sidebar Nav (st.radio) styled as a real nav list         */
+/* Sidebar Nav (st.radio) styled as a real nav list              */
 /* ============================================================ */
 section[data-testid="stSidebar"] div[role="radiogroup"] {
     gap: 2px !important;
@@ -195,7 +239,8 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label {
     border-radius: var(--border-radius-md) !important;
     margin-bottom: 2px !important;
     width: 100%;
-    font-size: 13px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     color: var(--color-text-secondary) !important;
     transition: background 0.15s ease, color 0.15s ease;
@@ -203,84 +248,105 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label {
 }
 
 section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
-    background-color: var(--color-bg-secondary) !important;
+    background-color: var(--color-bg-card-hover) !important;
     color: var(--color-text-primary) !important;
 }
 
-/* hide the native radio circle, keep only the label as a nav row */
 section[data-testid="stSidebar"] div[role="radiogroup"] label > div:first-child {
     display: none !important;
 }
 
-/* highlight the active/selected nav item */
 section[data-testid="stSidebar"] div[role="radiogroup"] label[data-checked="true"],
 section[data-testid="stSidebar"] div[role="radiogroup"] label:has(input:checked) {
     background-color: var(--color-bg-info) !important;
-    color: var(--color-text-info) !important;
+    color: var(--color-accent-cyan) !important;
     font-weight: 700 !important;
+    border-left: 2px solid var(--color-accent-cyan);
 }
 
 /* ============================================================ */
-/* NEW: st.success / st.info / st.warning / st.error text color  */
+/* st.success / st.info / st.warning / st.error text color       */
 /* ============================================================ */
 div[data-testid="stAlert"] p {
     color: var(--color-text-primary) !important;
+    font-family: var(--font-mono) !important;
     font-size: 13px !important;
     font-weight: 500 !important;
 }
 
 div[data-testid="stAlertContentSuccess"] {
     background-color: var(--color-bg-success) !important;
+    border: 1px solid rgba(34, 197, 94, 0.3) !important;
 }
 
 div[data-testid="stAlertContentInfo"] {
     background-color: var(--color-bg-info) !important;
+    border: 1px solid rgba(6, 182, 212, 0.3) !important;
 }
 
 div[data-testid="stAlertContentWarning"] {
     background-color: var(--color-bg-warning) !important;
+    border: 1px solid rgba(251, 191, 36, 0.3) !important;
 }
 
 div[data-testid="stAlertContentError"] {
     background-color: var(--color-bg-danger) !important;
+    border: 1px solid rgba(248, 113, 113, 0.3) !important;
 }
 
 /* ============================================================ */
-/* NEW: File uploader dropzone                                   */
+/* File uploader dropzone                                        */
 /* ============================================================ */
 div[data-testid="stFileUploaderDropzone"] {
-    background-color: var(--color-bg-secondary) !important;
-    border: 1.5px dashed var(--color-border-tertiary) !important;
+    background-color: var(--color-bg-card) !important;
+    border: 1.5px dashed var(--color-border) !important;
     border-radius: var(--border-radius-lg) !important;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 div[data-testid="stFileUploaderDropzone"]:hover {
-    border-color: var(--color-text-info) !important;
-    background-color: var(--color-bg-info) !important;
+    border-color: var(--color-accent-cyan) !important;
+    background-color: var(--color-bg-card-hover) !important;
 }
 
 div[data-testid="stFileUploaderDropzone"] button {
     border-radius: var(--border-radius-md) !important;
+}
+
+/* ============================================================ */
+/* Tabs - terminal-style underline                                */
+/* ============================================================ */
+button[data-baseweb="tab"] {
+    font-family: var(--font-mono) !important;
+    color: var(--color-text-secondary) !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: var(--color-accent-cyan) !important;
+}
+
+div[data-baseweb="tab-highlight"] {
+    background-color: var(--color-accent-cyan) !important;
 }
 </style>
 """
 
 
 def apply_theme():
-    """Injects custom CSS to match the AirAsia Operations Suite design."""
+    """Injects custom CSS to match the Analytics System Workspace design."""
     st.markdown(THEME_CSS, unsafe_allow_html=True)
 
 
-def module_header(mod_number: str, title: str, subtitle: str = "Select an action to proceed", is_onloan: bool = False):
+def module_header(mod_number: str, title: str, subtitle: str = "select an action to proceed", is_onloan: bool = False):
     """
-    Renders a unified header styled after the AirAsia Operations Suite workspace page.
+    Renders a unified header styled after the Analytics System Workspace landing page,
+    with the ">" terminal-prompt subtitle and gradient module tag.
     """
     tag_class = "mod-tag onloan" if is_onloan else "mod-tag"
     st.markdown(
         f"""
         <div>
-            <span class="{tag_class}">{mod_number} OPERATIONAL</span>
+            <span class="{tag_class}">{mod_number} {'ON LOAN' if is_onloan else 'ACTIVE'}</span>
             <h1 style="margin-top:2px; margin-bottom:4px;">{title}</h1>
             <p class="mod-subtitle">{subtitle}</p>
         </div>
@@ -291,7 +357,7 @@ def module_header(mod_number: str, title: str, subtitle: str = "Select an action
 
 def card(content_html: str, title: str = None):
     """
-    Generic content card wrapper for use inside any page
+    Generic dark-mode content card wrapper for use inside any page
     (profiling.py, hypothesis_page.py, report.py, etc).
 
     Usage:
@@ -300,8 +366,9 @@ def card(content_html: str, title: str = None):
     title_html = f"<h4 style='margin-top:0; margin-bottom:8px;'>{title}</h4>" if title else ""
     st.markdown(
         f"""
-        <div style="background:var(--color-bg-card); border-radius:var(--border-radius-xl);
-        box-shadow:var(--shadow-card); padding:16px; margin-bottom:12px;">
+        <div style="background:var(--color-bg-card); border:1px solid var(--color-border);
+        border-radius:var(--border-radius-xl); box-shadow:var(--shadow-card);
+        padding:16px; margin-bottom:12px;">
         {title_html}{content_html}
         </div>
         """,
