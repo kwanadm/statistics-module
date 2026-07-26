@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ikwan | Analytics Workspace</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151b2b;
+            --text-main: #e2e8f0;
+            --text-muted: #8b9bb4;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --glow: rgba(6, 182, 212, 0.3);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header { text-align: center; margin-bottom: 40px; }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .module-btn {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 25px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-btn:hover {
+            background-color: #1a2235;
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--glow);
+        }
+
+        .module-number {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+        }
+
+        @media (max-width: 600px) {
+            .module-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Analytics System Workspace</h1>
+        <p class="subtitle">> select module to initialize</p>
+    </header>
+
+    <main class="module-grid">
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_01</span><span class="module-title">Hypothesis Testing</span></button>
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_02</span><span class="module-title">Forecasting</span></button>
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_03</span><span class="module-title">Clustering / PCA</span></button>
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_04</span><span class="module-title">Operations Research</span></button>
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_05</span><span class="module-title">Correlation & Regression</span></button>
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_06</span><span class="module-title">Six Sigma Quality</span></button>
+        <button class="module-btn" onclick="alert('Module in development')"><span class="module-number">MOD_07</span><span class="module-title">Design of Experiments</span></button>
+        
+        <!-- Redirects to the new HTML file -->
+        <button class="module-btn" style="border-color: var(--accent-cyan);" onclick="window.location.href='module8.html'">
+            <span class="module-number">MOD_08 (ACTIVE)</span>
+            <span class="module-title">Descriptive Analysis + Distributions</span>
+        </button>
+    </main>
+
+</body>
+</html>
